@@ -1,0 +1,89 @@
+/* Main page spacing */
+.main {
+    padding-top: 1rem;
+}
+
+/* KPI Cards */
+.stMetric {
+    border-radius: 15px;
+    padding: 15px;
+    background-color: rgba(59,130,246,0.12);
+    border: 1px solid rgba(59,130,246,0.30);
+}
+
+/* Headers */
+h1 {
+    font-weight: 800;
+}
+
+h2 {
+    font-weight: 700;
+}
+
+h3 {
+    font-weight: 600;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #111827;
+}
+
+/* Sidebar Text */
+[data-testid="stSidebar"] * {
+    color: white;
+}
+
+/* DataFrames */
+[data-testid="stDataFrame"] {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Buttons */
+.stButton > button {
+    border-radius: 12px;
+    font-weight: bold;
+    width: 100%;
+}
+
+/* Charts */
+.js-plotly-plot {
+    border-radius: 15px;
+}
+
+.main {
+    animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+div[data-testid="stMetric"] {
+    transition: transform 0.3s ease;
+}
+
+div[data-testid="stMetric"]:hover {
+    transform: translateY(-5px);
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
