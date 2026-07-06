@@ -3,10 +3,30 @@ import pandas as pd
 import plotly.express as px
 import plotly.figure_factory as ff
 
-st.title("📈 Advanced Analytics Dashboard")
+st.title("📊 Exploratory Data Analysis (EDA) Dashboard")
+
+st.markdown("""
+This dashboard presents the Exploratory Data Analysis (EDA) carried out on the
+student dataset before model development. The visualizations help in understanding
+the distribution of student records, identifying patterns, examining relationships
+between variables, and determining the factors associated with student dropout.
+""")
 
 # Load Dataset
 df = pd.read_csv("data/student_dataset.csv")
+
+st.subheader("📋 Dataset Overview")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.write(f"**Number of Records:** {len(df)}")
+    st.write(f"**Number of Features:** {df.shape[1]-1}")
+    st.write(f"**Target Variable:** Dropout")
+
+with col2:
+    st.write(f"**Missing Values:** {df.isnull().sum().sum()}")
+    st.write(f"**Duplicate Records:** {df.duplicated().sum()}")
 
 # =========================
 # KPI CARDS
@@ -42,6 +62,11 @@ st.markdown("---")
 
 st.subheader("🏫 Dropout Rate by Department")
 
+st.write("""
+This visualization compares the dropout rate across different academic
+departments to identify departments with higher dropout risk.
+""")
+
 dept_dropout = (
     df.groupby("Department")["Dropout"]
     .mean()
@@ -64,6 +89,11 @@ st.plotly_chart(fig1, use_container_width=True)
 
 st.subheader("🎓 CGPA vs Dropout")
 
+st.write("""
+This chart compares students' CGPA with their dropout status to determine
+whether academic performance influences dropout.
+""")
+
 fig2 = px.box(
     df,
     x="Dropout",
@@ -78,6 +108,11 @@ st.plotly_chart(fig2, use_container_width=True)
 # =========================
 
 st.subheader("📚 Attendance vs Dropout")
+
+st.write("""
+This visualization examines whether attendance levels are associated
+with student dropout.
+""")
 
 fig3 = px.box(
     df,
@@ -94,6 +129,11 @@ st.plotly_chart(fig3, use_container_width=True)
 
 st.subheader("💰 Financial Stress Analysis")
 
+st.write("""
+This visualization shows how financial stress is distributed among
+students and its relationship with dropout.
+""")
+
 fig4 = px.histogram(
     df,
     x="Financial_Stress",
@@ -108,6 +148,11 @@ st.plotly_chart(fig4, use_container_width=True)
 # =========================
 
 st.subheader("🧠 Mental Health Impact")
+
+st.write("""
+This chart analyses the influence of students' mental health scores
+on dropout status.
+""")
 
 fig5 = px.box(
     df,
@@ -124,6 +169,11 @@ st.plotly_chart(fig5, use_container_width=True)
 
 st.subheader("📑 Carryovers vs Dropout")
 
+st.write("""
+This visualization compares the number of carryover courses
+among students based on dropout status.
+""")
+
 fig6 = px.histogram(
     df,
     x="Carryovers",
@@ -139,6 +189,11 @@ st.plotly_chart(fig6, use_container_width=True)
 
 st.subheader("🏆 Performance Distribution")
 
+st.write("""
+This chart illustrates the distribution of students' academic
+performance and its relationship with dropout.
+""")
+
 fig7 = px.histogram(
     df,
     x="Performance",
@@ -153,6 +208,11 @@ st.plotly_chart(fig7, use_container_width=True)
 # =========================
 
 st.subheader("🔥 Correlation Heatmap")
+
+st.write("""
+The correlation heatmap illustrates the strength of relationships
+between numerical variables within the dataset.
+""")
 
 corr = df.select_dtypes(
     include=["int64", "float64"]
@@ -174,6 +234,11 @@ st.plotly_chart(fig8, use_container_width=True)
 
 st.subheader("🎯 Features Most Related to Dropout")
 
+st.write("""
+This chart ranks variables according to how strongly they are
+correlated with student dropout.
+""")
+
 dropout_corr = (
     corr["Dropout"]
     .sort_values(ascending=False)
@@ -190,6 +255,17 @@ fig9 = px.bar(
 st.plotly_chart(fig9, use_container_width=True)
 
 st.markdown("---")
+
+st.subheader("📝 EDA Summary")
+
+st.success("""
+The exploratory data analysis showed that student dropout is influenced by
+multiple academic and non-academic factors, including CGPA, attendance,
+financial stress, mental health, carryovers, and academic performance.
+
+These findings guided the selection of relevant features for machine
+learning model development and evaluation.
+""")
 
 st.markdown("""
 <div style='text-align:center;color:gray;'>
