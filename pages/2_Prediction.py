@@ -10,6 +10,7 @@ st.title("🎯 Student Dropout Prediction")
 # Load model and encoders
 model = joblib.load("models/best_model.pkl")
 encoders = joblib.load("models/label_encoders.pkl")
+scaler = joblib.load("models/scaler.pkl")
 
 st.sidebar.header("Enter Student Information")
 
@@ -187,6 +188,9 @@ if st.button("Predict Risk"):
         "Carryovers",
         "Performance"
     ])
+
+    # Apply the same StandardScaler used during training
+    input_data = scaler.transform(input_data)
 
     with st.spinner("🤖 AI is analyzing student profile..."):
         time.sleep(1)

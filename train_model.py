@@ -91,18 +91,24 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # ==========================
+# Standardize Features
+# ==========================
+
+scaler = StandardScaler()
+
+X_train = scaler.fit_transform(X_train)
+
+X_test = scaler.transform(X_test)
+
+# ==========================
 # Machine Learning Models
 # ==========================
 
 models = {
 
-    "Logistic Regression": Pipeline([
-
-        ("scaler", StandardScaler()),
-
-        ("model", LogisticRegression(max_iter=3000))
-
-    ]),
+    "Logistic Regression": LogisticRegression(
+    max_iter=3000
+    ),
 
     "Decision Tree": DecisionTreeClassifier(
 
@@ -124,13 +130,9 @@ models = {
 
     ),
 
-    "Support Vector Machine": Pipeline([
-
-        ("scaler", StandardScaler()),
-
-        ("model", SVC(probability=True))
-
-    ])
+    "Support Vector Machine": SVC(
+    probability=True
+    )
 
 }
 
@@ -189,17 +191,17 @@ for name, model in models.items():
     }
 
     print(results[name])
-if accuracy > best_accuracy:
+    if accuracy > best_accuracy:
 
-    best_accuracy = accuracy
+        best_accuracy = accuracy
 
-    best_model = model
+        best_model = model
 
-    best_name = name
+        best_name = name
 
-    best_predictions = prediction
+        best_predictions = prediction
 
-    best_probabilities = probabilities
+        best_probabilities = probabilities
      
 # Save predictions from best model
 best_predictions = best_model.predict(X_test)
@@ -224,6 +226,11 @@ joblib.dump(
 # ==========================
 
 joblib.dump(best_model, "models/best_model.pkl")
+
+joblib.dump(
+    scaler,
+    "models/scaler.pkl"
+)
 
 joblib.dump(label_encoders, "models/label_encoders.pkl")
 
